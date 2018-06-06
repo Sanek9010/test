@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">testHtc</string>
+    <string name="company">Company:</string>
+    <string name="age">Age:</string>
+    <string name="competences">Competences:</string>
+    <string name="employees">Employees:</string>
+    <string name="name">Name:</string>
+    <string name="phone_number">Phone number:</string>
+    <string name="skills">Skills:</string>
+    <string name="noNetworkConnection">No network connection.</string>
+
+    <string name="Error">Error</string>
+    <string name="CONNECT_SUCCESS">Connect success</string>
+    <string name="GET_INPUT_STREAM_SUCCESS">Get input stream success</string>
+    <string name="PROCESS_INPUT_STREAM_IN_PROGRESS">Process input stream in progress</string>
+    <string name="PROCESS_INPUT_STREAM_SUCCESS">Process input stream success</string>
+    <string name="url">http://www.mocky.io/v2/56fa31e0110000f920a72134</string>
+
+
+</resources>
