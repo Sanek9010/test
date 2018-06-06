@@ -196,10 +196,10 @@ public class NetworkFragment extends Fragment {
                 stream = connection.getInputStream();
                 publishProgress(DownloadCallback.Progress.GET_INPUT_STREAM_SUCCESS);
                 if (stream != null) {
-                    BufferedReader br = new BufferedReader(new InputStreamReader(stream));
+                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(stream));
                     String buf;
                     publishProgress(DownloadCallback.Progress.PROCESS_INPUT_STREAM_IN_PROGRESS);
-                    while ((buf = br.readLine()) != null) {
+                    while ((buf = bufferedReader.readLine()) != null) {
                         result.append(buf);
                         if (isCancelled()) {
                             break;

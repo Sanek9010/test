@@ -40,11 +40,11 @@ public class MainActivity extends AppCompatActivity implements DownloadCallback<
         try {
             JsonParser parser = new JsonParser();
             JsonObject mainObject = parser.parse(result).getAsJsonObject();
-            Gson g = new Gson();
-            Company c = g.fromJson(mainObject.getAsJsonObject("company"),Company.class);
-            Collections.sort(c.getEmployees());
+            Gson gson = new Gson();
+            Company company = gson.fromJson(mainObject.getAsJsonObject("company"),Company.class);
+            Collections.sort(company.getEmployees());
             StringBuilder competences = new StringBuilder();
-            for (String competence : c.getCompetences()) {
+            for (String competence : company.getCompetences()) {
                 competences.append(competence);
                 competences.append(", ");
             }
@@ -54,15 +54,15 @@ public class MainActivity extends AppCompatActivity implements DownloadCallback<
             TextView competencesView =  findViewById(R.id.competencesList);
             ListView employeeList =  findViewById(R.id.employeesList);
 
-            name.setText(c.getName());
-            age.setText(String.format("%d",c.getAge()));
+            name.setText(company.getName());
+            age.setText(String.format("%d",company.getAge()));
             competencesView.setText(competences.substring(0,competences.length()-2));
-            EmployeeAdapter employeeAdapter = new EmployeeAdapter(this,c.getEmployees());
+            EmployeeAdapter employeeAdapter = new EmployeeAdapter(this,company.getEmployees());
             employeeList.setAdapter(employeeAdapter);
         } catch (Exception e) {
             TextView resultMessage = findViewById(R.id.textView);
             if (result != null) {
-                resultMessage.setText(result);
+                resultMessage.setText(result.substring(0,100));
             } else {
                 resultMessage.setText(R.string.noNetworkConnection);
             }

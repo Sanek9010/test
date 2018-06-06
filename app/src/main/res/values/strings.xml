@@ -13,7 +13,7 @@
     <string name="CONNECT_SUCCESS">Connect success</string>
     <string name="GET_INPUT_STREAM_SUCCESS">Get input stream success</string>
     <string name="PROCESS_INPUT_STREAM_IN_PROGRESS">Process input stream in progress</string>
-    <string name="PROCESS_INPUT_STREAM_SUCCESS">Process input stream success</string>
+    <string name="PROCESS_INPUT_STREAM_SUCCESS">Done</string>
     <string name="url">http://www.mocky.io/v2/56fa31e0110000f920a72134</string>
 
 
