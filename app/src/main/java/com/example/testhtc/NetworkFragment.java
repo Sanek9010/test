@@ -160,13 +160,6 @@ public class NetworkFragment extends Fragment {
             }
         }
 
-        /**
-         * Override to add special behavior for cancelled AsyncTask.
-         */
-        @Override
-        protected void onCancelled(DownloadTask.Result result) {
-        }
-
         @Override
         protected void onProgressUpdate(Integer... progress) {
             mCallback.onProgressUpdate(progress[0]);
