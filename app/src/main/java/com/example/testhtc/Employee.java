@@ -36,6 +36,15 @@ public class Employee implements Comparable<Employee>{
         this.skills = skills;
     }
 
+    public String getStringOfSkills(){
+        StringBuilder stringOfSkills =new StringBuilder();
+        for (String skill: skills) {
+            stringOfSkills.append(skill);
+            stringOfSkills.append(", ");
+        }
+        return stringOfSkills.substring(0,stringOfSkills.length()-2);
+    }
+
     @Override
     public int compareTo(@NonNull Employee employee) {
         return this.getName().compareTo(employee.getName());

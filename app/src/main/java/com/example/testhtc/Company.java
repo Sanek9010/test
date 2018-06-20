@@ -3,7 +3,7 @@ package com.example.testhtc;
 import java.util.ArrayList;
 
 public class Company {
-    private String name;
+    private String name ="";
     private int age;
     private ArrayList<String> competences = new ArrayList<>();
     private ArrayList<Employee> employees = new ArrayList<>();

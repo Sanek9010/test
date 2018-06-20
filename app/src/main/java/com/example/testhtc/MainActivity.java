@@ -1,18 +1,27 @@
 package com.example.testhtc;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.ListView;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
+
 import com.google.gson.*;
 import java.util.Collections;
 
 public class MainActivity extends AppCompatActivity implements DownloadCallback<String> {
     private NetworkFragment mNetworkFragment;
     private boolean mDownloading = false;
+    private RecyclerView employeeList;
+    private RecyclerViewAdapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
+    private String status;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,6 +29,14 @@ public class MainActivity extends AppCompatActivity implements DownloadCallback<
         setContentView(R.layout.activity_main);
         mNetworkFragment = NetworkFragment.getInstance(getSupportFragmentManager(),
                 getResources().getText(R.string.url).toString());
+
+        employeeList = findViewById(R.id.employeesList);
+        employeeList.setHasFixedSize(true);
+        mLayoutManager = new LinearLayoutManager(this);
+        employeeList.setLayoutManager(mLayoutManager);
+        employeeList.addItemDecoration(new DividerItemDecoration(this));
+        mAdapter = new RecyclerViewAdapter();
+        employeeList.setAdapter(mAdapter);
     }
 
     @Override
@@ -30,63 +47,49 @@ public class MainActivity extends AppCompatActivity implements DownloadCallback<
 
     private void startDownload() {
         if (!mDownloading && mNetworkFragment != null) {
-            mNetworkFragment.startDownload();
             mDownloading = true;
+            mNetworkFragment.startDownload();
         }
     }
 
     @Override
     public void updateFromDownload(String result) {
+        Company company = new Company();
         try {
             JsonParser parser = new JsonParser();
             JsonObject mainObject = parser.parse(result).getAsJsonObject();
             Gson gson = new Gson();
-            Company company = gson.fromJson(mainObject.getAsJsonObject("company"),Company.class);
+            company = gson.fromJson(mainObject.getAsJsonObject("company"),Company.class);
             Collections.sort(company.getEmployees());
-            StringBuilder competences = new StringBuilder();
-            for (String competence : company.getCompetences()) {
-                competences.append(competence);
-                competences.append(", ");
-            }
-
-            TextView name =  findViewById(R.id.companyName);
-            TextView age =  findViewById(R.id.companyAge);
-            TextView competencesView =  findViewById(R.id.competencesList);
-            ListView employeeList =  findViewById(R.id.employeesList);
-
-            name.setText(company.getName());
-            age.setText(String.format("%d",company.getAge()));
-            competencesView.setText(competences.substring(0,competences.length()-2));
-            EmployeeAdapter employeeAdapter = new EmployeeAdapter(this,company.getEmployees());
-            employeeList.setAdapter(employeeAdapter);
         } catch (Exception e) {
-            TextView resultMessage = findViewById(R.id.textView);
             if (result != null) {
-                resultMessage.setText(result.substring(0,100));
+                status = result.length()>100?result.substring(0,100):result;
             } else {
-                resultMessage.setText(R.string.noNetworkConnection);
+                status = getResources().getString(R.string.noNetworkConnection);
             }
         }
+        mAdapter.setData(company,status);
+        mAdapter.notifyDataSetChanged();
+        finishDownloading();
     }
 
     @Override
     public void onProgressUpdate(int progress) {
-        TextView resultMessage = findViewById(R.id.textView);
         switch(progress) {
             case DownloadCallback.Progress.ERROR:
-                resultMessage.setText(R.string.Error);
+                status = getResources().getString(R.string.Error);
                 break;
             case DownloadCallback.Progress.CONNECT_SUCCESS:
-                resultMessage.setText(R.string.CONNECT_SUCCESS);
+                status = getResources().getString(R.string.CONNECT_SUCCESS);
                 break;
             case DownloadCallback.Progress.GET_INPUT_STREAM_SUCCESS:
-                resultMessage.setText(R.string.GET_INPUT_STREAM_SUCCESS);
+                status = getResources().getString(R.string.GET_INPUT_STREAM_SUCCESS);
                 break;
             case DownloadCallback.Progress.PROCESS_INPUT_STREAM_IN_PROGRESS:
-                resultMessage.setText(R.string.PROCESS_INPUT_STREAM_IN_PROGRESS);
+                status = getResources().getString(R.string.PROCESS_INPUT_STREAM_IN_PROGRESS);
                 break;
             case DownloadCallback.Progress.PROCESS_INPUT_STREAM_SUCCESS:
-                resultMessage.setText(R.string.PROCESS_INPUT_STREAM_SUCCESS);
+                status = getResources().getString(R.string.PROCESS_INPUT_STREAM_SUCCESS);
                 break;
         }
     }

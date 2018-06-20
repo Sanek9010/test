@@ -1,6 +1,9 @@
 package com.example.testhtc;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -21,6 +24,7 @@ public class NetworkFragment extends Fragment {
     private DownloadCallback mCallback;
     private DownloadTask mDownloadTask;
     private String mUrlString;
+    NetworkReceiver receiver = new NetworkReceiver();
     /**
      * Static initializer for NetworkFragment that sets the URL of the host it will be downloading
      * from.
@@ -38,6 +42,22 @@ public class NetworkFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mUrlString = getArguments().getString(URL_KEY);
+
+        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        receiver = new NetworkReceiver();
+        getContext().registerReceiver(receiver, filter);
+    }
+
+    class NetworkReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            NetworkInfo networkInfo = mCallback.getActiveNetworkInfo();
+            if (networkInfo != null &&
+                    (networkInfo.getType() == ConnectivityManager.TYPE_WIFI
+                            || networkInfo.getType() == ConnectivityManager.TYPE_MOBILE)) {
+                startDownload();
+            }
+        }
     }
 
     @Override
@@ -56,6 +76,9 @@ public class NetworkFragment extends Fragment {
     public void onDestroy() {
         cancelDownload();
         super.onDestroy();
+        if (receiver != null) {
+            getContext().unregisterReceiver(receiver);
+        }
     }
 
     /**
@@ -156,7 +179,6 @@ public class NetworkFragment extends Fragment {
                 } else if (result.mResultValue != null) {
                     mCallback.updateFromDownload(result.mResultValue);
                 }
-                mCallback.finishDownloading();
             }
         }
 
