@@ -58,7 +58,9 @@ public class MainActivity extends AppCompatActivity implements DownloadCallback<
         try {
             JsonParser parser = new JsonParser();
             JsonObject mainObject = parser.parse(result).getAsJsonObject();
-            Gson gson = new Gson();
+            GsonBuilder builder = new GsonBuilder();
+            builder.registerTypeAdapter(Company.class, new CustomConverter());
+            Gson gson = builder.create();
             company = gson.fromJson(mainObject.getAsJsonObject("company"),Company.class);
             Collections.sort(company.getEmployees());
         } catch (Exception e) {

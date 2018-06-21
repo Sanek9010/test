@@ -28,23 +28,18 @@ public class ElementBinder extends DataBinder<ElementBinder.ViewHolder> {
     @Override
     public void bindViewHolder(ViewHolder holder, int position) {
         holder.name.setText(company.getEmployees().get(position).getName());
-        holder.phone_Number.setText(company.getEmployees().get(position).getPhone_Number());
-        StringBuilder skills = new StringBuilder();
-        for (String skill : company.getEmployees().get(position).getSkills()) {
-            skills.append(skill);
-            skills.append(", ");
-        }
-        holder.skills.setText(skills.substring(0,skills.length()-2));
+        holder.phoneNumber.setText(company.getEmployees().get(position).getPhone_Number());
+        holder.skills.setText(company.getEmployees().get(position).getStringOfSkills());
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView name;
-        public TextView phone_Number;
+        public TextView phoneNumber;
         public TextView skills;
         public ViewHolder(View convertView) {
             super(convertView);
             name = convertView.findViewById(R.id.name);
-            phone_Number = convertView.findViewById(R.id.phone_Number);
+            phoneNumber = convertView.findViewById(R.id.phone_Number);
             skills= convertView.findViewById(R.id.skills);
         }
     }

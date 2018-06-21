@@ -8,6 +8,16 @@ public class Company {
     private ArrayList<String> competences = new ArrayList<>();
     private ArrayList<Employee> employees = new ArrayList<>();
 
+    public Company() {}
+
+    public Company(String name, int age, ArrayList<String> competences, ArrayList<Employee> employees) {
+
+        this.name = name;
+        this.age = age;
+        this.competences = competences;
+        this.employees = employees;
+    }
+
     public String getName() {
         return name;
     }
