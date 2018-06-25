@@ -7,8 +7,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 public class ElementBinder extends DataBinder<ElementBinder.ViewHolder> {
-    public void setCompany(Company company) {
-        this.company = company;
+    public void setCompany(Company с) {
+        this.company = с;
     }
 
     private Company company;
