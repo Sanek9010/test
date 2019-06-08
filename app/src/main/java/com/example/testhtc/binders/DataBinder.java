@@ -1,4 +1,4 @@
-package com.example.testhtc;
+package com.example.testhtc.binders;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;

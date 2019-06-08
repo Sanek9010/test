@@ -1,10 +1,13 @@
-package com.example.testhtc;
+package com.example.testhtc.binders;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.example.testhtc.Company;
+import com.example.testhtc.R;
 
 public class ElementBinder extends DataBinder<ElementBinder.ViewHolder> {
     public void setCompany(Company с) {

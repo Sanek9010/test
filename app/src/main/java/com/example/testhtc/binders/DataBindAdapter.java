@@ -1,7 +1,9 @@
-package com.example.testhtc;
+package com.example.testhtc.binders;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
+
+import com.example.testhtc.binders.DataBinder;
 
 abstract public class DataBindAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -12,8 +14,7 @@ abstract public class DataBindAdapter extends RecyclerView.Adapter<RecyclerView.
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
-        int binderPosition = getBinderPosition(position);
-        getDataBinder(viewHolder.getItemViewType()).bindViewHolder(viewHolder, binderPosition);
+        getDataBinder(viewHolder.getItemViewType()).bindViewHolder(viewHolder, getBinderPosition(position));
     }
 
     @Override

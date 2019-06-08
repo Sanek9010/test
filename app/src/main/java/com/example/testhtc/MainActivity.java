@@ -1,17 +1,13 @@
 package com.example.testhtc;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.TextView;
-
 import com.google.gson.*;
 import java.util.Collections;
 
@@ -20,7 +16,7 @@ public class MainActivity extends AppCompatActivity implements DownloadCallback<
     private boolean mDownloading = false;
     private RecyclerView employeeList;
     private RecyclerViewAdapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
+    private LinearLayoutManager mLayoutManager;
     private String status;
 
     @Override
@@ -29,12 +25,13 @@ public class MainActivity extends AppCompatActivity implements DownloadCallback<
         setContentView(R.layout.activity_main);
         mNetworkFragment = NetworkFragment.getInstance(getSupportFragmentManager(),
                 getResources().getText(R.string.url).toString());
-
         employeeList = findViewById(R.id.employeesList);
         employeeList.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
         employeeList.setLayoutManager(mLayoutManager);
-        employeeList.addItemDecoration(new DividerItemDecoration(this));
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(employeeList.getContext(),
+                mLayoutManager.getOrientation());
+        employeeList.addItemDecoration(dividerItemDecoration);
         mAdapter = new RecyclerViewAdapter();
         employeeList.setAdapter(mAdapter);
     }
